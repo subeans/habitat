@@ -24,6 +24,8 @@ DEVICES = [
 ]
 
 RESNET50_BATCHES = [16, 32, 64]
+VGG_BATCHES = [16, 32, 64]
+
 GNMT_BATCHES = [16, 32, 48]
 TRANSFORMER_BATCHES = [32, 48, 64]
 DCGAN_BATCHES = [64, 96, 128]
@@ -212,7 +214,24 @@ def run_transformer_experiments(context):
             runnable,
             context,
         )
+#------------ADD NEW MODEL 
+def run_vgg_experiments(context):
+    import vgg.entry_point as rep
 
+    model = rep.skyline_model_provider()
+    iteration = rep.skyline_iteration_provider(model)
+
+    for batch_size in VGG_BATCHES:
+        inputs = rep.skyline_input_provider(batch_size=batch_size)
+
+        def runnable():
+            iteration(*inputs)
+
+        run_experiment_config(
+            'vgg+{}'.format(batch_size),
+            runnable,
+            context,
+        )
 
 def main():
     import habitat.habitat_cuda as hc
@@ -240,6 +259,8 @@ def main():
     run_resnet50_experiments(context)
     run_gnmt_experiments(context)
     run_transformer_experiments(context)
+    #---------ADD NEW 
+    run_vgg_experiments(context)
 
 
 if __name__ == '__main__':
