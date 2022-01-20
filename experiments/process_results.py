@@ -94,12 +94,15 @@ def percent_error(predicted, actual):
 def e2e_results(config_name, config, out_e2e):
     all_frames = []
     actual = config.e2e_actual
-
+    #-----CHECK ACTUAL LATENCY 
+    print(actual)
     for origin_device in DEVICES:
         if origin_device not in config.e2e_predicted:
             continue
         predictions = config.e2e_predicted[origin_device]
-
+        #--------CHECK PREDICT LATENCY
+        print(predictions)
+        
         merged = pd.merge(
             predictions,
             actual,
