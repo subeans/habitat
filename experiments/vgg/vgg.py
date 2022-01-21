@@ -3,9 +3,6 @@ from typing import Union, List, Dict, Any, cast
 import torch
 import torch.nn as nn
 
-from .._internally_replaced_utils import load_state_dict_from_url
-from ..utils import _log_api_usage_once
-
 
 __all__ = [
     "VGG",
@@ -20,16 +17,16 @@ __all__ = [
 ]
 
 
-model_urls = {
-    "vgg11": "https://download.pytorch.org/models/vgg11-8a719046.pth",
-    "vgg13": "https://download.pytorch.org/models/vgg13-19584684.pth",
-    "vgg16": "https://download.pytorch.org/models/vgg16-397923af.pth",
-    "vgg19": "https://download.pytorch.org/models/vgg19-dcbb9e9d.pth",
-    "vgg11_bn": "https://download.pytorch.org/models/vgg11_bn-6002323d.pth",
-    "vgg13_bn": "https://download.pytorch.org/models/vgg13_bn-abd245e5.pth",
-    "vgg16_bn": "https://download.pytorch.org/models/vgg16_bn-6c64b313.pth",
-    "vgg19_bn": "https://download.pytorch.org/models/vgg19_bn-c79401a0.pth",
-}
+# model_urls = {
+#     "vgg11": "https://download.pytorch.org/models/vgg11-8a719046.pth",
+#     "vgg13": "https://download.pytorch.org/models/vgg13-19584684.pth",
+#     "vgg16": "https://download.pytorch.org/models/vgg16-397923af.pth",
+#     "vgg19": "https://download.pytorch.org/models/vgg19-dcbb9e9d.pth",
+#     "vgg11_bn": "https://download.pytorch.org/models/vgg11_bn-6002323d.pth",
+#     "vgg13_bn": "https://download.pytorch.org/models/vgg13_bn-abd245e5.pth",
+#     "vgg16_bn": "https://download.pytorch.org/models/vgg16_bn-6c64b313.pth",
+#     "vgg19_bn": "https://download.pytorch.org/models/vgg19_bn-c79401a0.pth",
+# }
 
 
 class VGG(nn.Module):
@@ -37,7 +34,7 @@ class VGG(nn.Module):
         self, features: nn.Module, num_classes: int = 1000, init_weights: bool = True, dropout: float = 0.5
     ) -> None:
         super().__init__()
-        _log_api_usage_once(self)
+        # _log_api_usage_once(self)
         self.features = features
         self.avgpool = nn.AdaptiveAvgPool2d((7, 7))
         self.classifier = nn.Sequential(
@@ -99,12 +96,12 @@ cfgs: Dict[str, List[Union[str, int]]] = {
 
 
 def _vgg(arch: str, cfg: str, batch_norm: bool, pretrained: bool, progress: bool, **kwargs: Any) -> VGG:
-    if pretrained:
-        kwargs["init_weights"] = False
+    # if pretrained:
+    #     kwargs["init_weights"] = False
     model = VGG(make_layers(cfgs[cfg], batch_norm=batch_norm), **kwargs)
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls[arch], progress=progress)
-        model.load_state_dict(state_dict)
+    # if pretrained:
+    #     state_dict = load_state_dict_from_url(model_urls[arch], progress=progress)
+    #     model.load_state_dict(state_dict)
     return model
 
 
