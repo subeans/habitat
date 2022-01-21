@@ -19,8 +19,9 @@ def skyline_iteration_provider(model):
     optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
     loss_fn = torch.nn.CrossEntropyLoss()
     def iteration(*inputs):
+        data, labels = inputs
         optimizer.zero_grad()
-        out = model(*inputs)
+        out = model(data)
         out = loss_fn(out, labels)
         out.backward()
         optimizer.step()
